@@ -5,6 +5,8 @@ namespace App\Http\Controllers\Auth;
 use App\Http\Controllers\Controller;
 use App\Providers\RouteServiceProvider;
 use App\Models\User;
+use App\Repositories\Contracts\IDesign;
+use App\Repositories\Contracts\IUser;
 use Illuminate\Foundation\Auth\RegistersUsers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
@@ -24,7 +26,12 @@ class RegisterController extends Controller
     */
 
     use RegistersUsers;
+    protected $user;
 
+    public function __construct(IUser $user)
+    {
+        $this->user = $user;
+    }
 
     protected function registered(Request $request, $user)
     {
@@ -58,11 +65,13 @@ class RegisterController extends Controller
     protected function create(array $data)
     {
 
-        return User::create([
+        return $this->user->make([
             'user_name' => $data['user_name'],
             'name' => $data['name'],
             'email' => $data['email'],
             'password' => Hash::make($data['password']),
         ]);
+
+
     }
 }

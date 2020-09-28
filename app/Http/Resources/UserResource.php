@@ -19,6 +19,7 @@ class UserResource extends JsonResource
             'username' => $this->user_name,
             'email' => $this->email,
             'name' => $this->name,
+            'location' => $this->location_coordinates,
             'create_date' =>[
                 'created_at_human' => $this->created_at->diffForHumans(),
                 'created_at' => $this->created_at
